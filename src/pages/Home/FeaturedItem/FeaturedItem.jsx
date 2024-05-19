@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import SectionTitle from "../../../Components/SectionTitle/SectionTitle";
 import featureImg from '../../../assets/assets/home/featured.jpg'
 // import FeaturedItem from '../FeaturedItem/FeaturedItem.css'
@@ -19,7 +20,8 @@ const FeaturedItem = () => {
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi vero sapiente maxime recusandae dolore quidem ipsam, architecto perferendis, enim eum fugit similique! Aliquam harum eaque perspiciatis numquam consequatur, magnam, explicabo sit minus tempora voluptatem omnis porro delectus quaerat dolores, alias pariatur ex amet. Repudiandae ullam perspiciatis maxime id consequatur recusandae!
       </p>
-      <button className="btn btn-outline border-0 border-b-4">Order Now</button>
+      <Link to='/order'><button className="btn btn-outline border-0 border-b-4">Order Now</button></Link>
+      
     </div>
       
     </div>

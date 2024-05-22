@@ -13,13 +13,14 @@ const Login = () => {
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   const {signIn, loading} = useContext(AuthContext);
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
 
-  const from = location.state?.from?.pathname || '/'
+  
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -126,7 +127,7 @@ const Login = () => {
               </button>
             </div>
             <div className="form-control mt-6">
-              <button disabled={disabled} className="btn btn-primary">Login</button>
+              <button disabled={false} className="btn btn-primary">Login</button>
             </div>
           </form>
           <p><small>New Here?</small> <Link to='/signup'>Create an Account</Link></p>

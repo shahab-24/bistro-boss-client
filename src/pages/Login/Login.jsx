@@ -11,7 +11,7 @@ import Swal from 'sweetalert2'
 
 const Login = () => {
   const [disabled, setDisabled] = useState(true);
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const {signIn, loading} = useContext(AuthContext);
@@ -32,7 +32,7 @@ const Login = () => {
       const user = result.user;
       console.log(user);
       Swal.fire({
-        title: "User Logged In successfully",
+        title: "User Log In successfull",
         showClass: {
           popup: `
             animate__animated
@@ -48,7 +48,7 @@ const Login = () => {
           `
         }
       })
-      Navigate(from, {replace: true});
+      navigate(from, {replace: true});
     })
   
   };

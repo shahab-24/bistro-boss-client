@@ -1,35 +1,36 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   loadCaptchaEnginge,
   LoadCanvasTemplate,
-  
   validateCaptcha,
 } from "react-simple-captcha";
-import { AuthContext } from "../../Providers/AuthProvider";
-import Swal from 'sweetalert2'
+
+import Swal from "sweetalert2";
+
+import useAuth from "../../useMenu/useAuth/useAuth";
+import SocialLogin from "../../Components/SocialLogin/SocialLogin";
 
 const Login = () => {
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || "/";
 
-  const {signIn, loading} = useContext(AuthContext);
+  const { signIn, loading } = useAuth()
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
 
   
+
   const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
-    signIn(email, password)
-    .then ( result => {
-      
+    signIn(email, password).then((result) => {
       const user = result.user;
       console.log(user);
       Swal.fire({
@@ -39,19 +40,18 @@ const Login = () => {
             animate__animated
             animate__fadeInUp
             animate__faster
-          `
+          `,
         },
         hideClass: {
           popup: `
             animate__animated
             animate__fadeOutDown
             animate__faster
-          `
-        }
-      })
-      navigate(from, {replace: true});
-    })
-  
+          `,
+        },
+      });
+      navigate(from, { replace: true });
+    });
   };
 
   const handleValidateCaptcha = (e) => {
@@ -119,18 +119,19 @@ const Login = () => {
                 className="input input-bordered"
                 required
               />
-              <button
-                
-                className="btn btn-outline mt-2 btn-xs"
-              >
-                Validate
-              </button>
+              <button className="btn btn-outline mt-2 btn-xs">Validate</button>
             </div>
             <div className="form-control mt-6">
-              <button disabled={false} className="btn btn-primary">Login</button>
+              <button disabled={false} className="btn btn-primary">
+                Login
+              </button>
             </div>
           </form>
-          <p><small>New Here?</small> <Link to='/signup'>Create an Account</Link></p>
+          <p className="p-8">
+            <small>New Here?</small> <Link to="/signup">Create an Account</Link>
+          </p>
+          <div className="divider"></div>
+         <SocialLogin></SocialLogin>
         </div>
       </div>
     </div>

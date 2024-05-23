@@ -3,10 +3,12 @@ import { useForm } from "react-hook-form";
 import { useContext } from "react";
 import { AuthContext } from "../../Providers/AuthProvider";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../useMenu/useAxiosPublic/useAxiosPublic";
 
 const SignUp = () => {
   const { createUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate()
+  const axiosPublic = useAxiosPublic();
 
 
   const {
@@ -21,19 +23,31 @@ const SignUp = () => {
     console.log(data);
     createUser(data.email, data.password).then((result) => {
       const loggedUser = result.user;
-      console.log(loggedUser);
+      // console.log(loggedUser);
       updateUserProfile(data.name, data.photoURL)
       .then(()=> {
-        console.log('profile updated');
+        // console.log('profile updated');
+        const userInfo = {
+          name: data.name,
+          email: data.email
+        }
+
+        axiosPublic.post('/users', userInfo)
+        .then(res => {
+          if(res.data.insertedId > 0) {
+            console.log(userInfo);
+            reset()
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "User Profile Updated Successfully",
+              showConfirmButton: false,
+              timer: 1500
+            });
+          }
+        })
+       
         
-        reset()
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "User Profile Updated Successfully",
-          showConfirmButton: false,
-          timer: 1500
-        });
         navigate('/')
       })
       .catch(error => console.log(error))

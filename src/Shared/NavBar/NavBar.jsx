@@ -58,7 +58,11 @@ const NavBar = () => {
   <div className="navbar-end">
   {
         user ? <> 
-        <span>{ user.displayName}</span>
+        <div className="">
+        <img className='w-[50px] h-[50px] rounded-3xl mr-2' src={user.photoURL} alt="" />
+        
+        </div>
+        <span className="">{ user.displayName}</span>
         
         <button onClick={handleLogOut} className="btn btn-active btn-ghost text-end">Log Out</button></> : <>
         <li><Link to='/login'>Login</Link></li>

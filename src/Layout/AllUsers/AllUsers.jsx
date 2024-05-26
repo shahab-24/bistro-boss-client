@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxios from "../../useMenu/useAxios/useAxios";
-import { FaRegTrashAlt, FaUser, FaUsers } from "react-icons/fa";
+import { FaRegTrashAlt, FaUsers } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const AllUsers = () => {
@@ -14,11 +14,26 @@ const AllUsers = () => {
     },
   });
 
-  const handleAdmin = user => {
+  const handleMakeAdmin = user => {
+
+    axiosSecure.patch(`/users/admin/${user._id}`)
+    .then(res => {
+      console.log(res.data)
+      if(res.data.modifiedCount > 0) {
+        refetch()
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `${user.name} is an Admin Now!!`,
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    })
     
   }
 
-  const handleDeleteUser = user =>{
+  const handleDeleteUser = (user) =>{
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -31,11 +46,11 @@ const AllUsers = () => {
       if (result.isConfirmed) {
         axiosSecure.delete(`/users/${user._id}`)
         .then(res => {
-            refetch()
           if(res.data.deletedCount > 0) {
+            refetch()
             Swal.fire({
               title: "Deleted!",
-              text: "Your file has been deleted.",
+              text: `${user.name} has been Deleted`,
               icon: "success"
             });
           }
@@ -47,7 +62,7 @@ const AllUsers = () => {
 
   return (
     <div>
-      <div className="flex justify-evenly">
+      <div className="flex justify-evenly mt-10 mb-10">
         <h2 className="text-2xl font-bold">All Users</h2>
         <h2 className="text-2xl font-bold">Total Users: {users.length}</h2>
       </div>
@@ -70,13 +85,13 @@ const AllUsers = () => {
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>
-                <button onClick={() => handleAdmin(user)} className="btn btn-ghost bg-orange-500 text-xl text-white">
+               { user.role === 'admin' ? 'Admin' : <button onClick={() => handleMakeAdmin(user)} className="btn btn-ghost bg-orange-500 text-xl text-white">
                     <FaUsers />
-                  </button>
+                  </button>}
                 </td>
                 <td>
-                  {" "}
-                  <button onClick={() => handleDeleteUser(user._id)} className="btn btn-ghost btn-lg text-red-600">
+                 
+                  <button onClick={() => handleDeleteUser(user)} className="btn btn-ghost btn-lg text-red-600">
                     <FaRegTrashAlt />
                   </button>
                 </td>
